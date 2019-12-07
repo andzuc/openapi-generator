@@ -42,11 +42,13 @@
             <artifactId>jakarta.validation-api</artifactId>
             <version>${beanvalidation-version}</version>
         </dependency>
+        {{#jackson}}
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
             <version>2.0.1</version>
         </dependency>
+        {{/jackson}}
     </dependencies>
 
     <properties>

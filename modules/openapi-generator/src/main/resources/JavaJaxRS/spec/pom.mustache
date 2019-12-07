@@ -74,17 +74,21 @@
       <version>${jakarta.ws.rs-version}</version>
       <scope>provided</scope>
     </dependency>
+    {{#jackson}}
     <dependency>
       <groupId>com.fasterxml.jackson.datatype</groupId>
       <artifactId>jackson-datatype-jsr310</artifactId>
       <version>${jackson-version}</version>
     </dependency>
+    {{/jackson}}
     {{^useJakartaEe}}
+    {{#jackson}}
     <dependency>
       <groupId>com.fasterxml.jackson.jaxrs</groupId>
       <artifactId>jackson-jaxrs-json-provider</artifactId>
       <version>${jackson-version}</version>
     </dependency>
+    {{/jackson}}
     {{/useJakartaEe}}
     {{#useJakartaEe}}
     <dependency>
@@ -170,6 +174,14 @@
         <version>${jackson-databind-nullable-version}</version>
     </dependency>
     {{/openApiNullable}}
+    {{#useJsonbAnnotations}}
+    <dependency>
+        <groupId>javax.json.bind</groupId>
+        <artifactId>javax.json.bind-api</artifactId>
+        <version>1.0</version>
+        <scope>provided</scope>
+    </dependency>
+    {{/useJsonbAnnotations}}
   </dependencies>
   <properties>
     <java.version>1.8</java.version>

@@ -63,6 +63,8 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         configAssert.assertValue(CodegenConstants.INVOKER_PACKAGE, codegen::getInvokerPackage, "org.openapitools.api");
         codegen.additionalProperties().put(JavaJAXRSSpecServerCodegen.SERVER_PORT, "8082");
         codegen.additionalProperties().put(JavaJAXRSSpecServerCodegen.OPEN_API_SPEC_FILE_LOCATION, "src/main/openapi/openapi.yaml");
+        Assert.assertEquals(codegen.additionalProperties().get(JavaJAXRSSpecServerCodegen.JACKSON), Boolean.TRUE.toString());
+        Assert.assertNull(codegen.additionalProperties().get(JavaJAXRSSpecServerCodegen.USE_JSONB_ANNOTATIONS));
     }
 
     @Test

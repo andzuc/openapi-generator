@@ -120,6 +120,12 @@
       <scope>test</scope>
     </dependency>
 {{/useMutiny}}
+{{#useJsonbAnnotations}}
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-jsonb</artifactId>
+    </dependency>
+{{/useJsonbAnnotations}}
   </dependencies>
   <build>
     <plugins>

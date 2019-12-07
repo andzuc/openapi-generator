@@ -41,6 +41,8 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     public static final String USE_SWAGGER_ANNOTATIONS = "useSwaggerAnnotations";
     public static final String USE_MICROPROFILE_OPENAPI_ANNOTATIONS = "useMicroProfileOpenAPIAnnotations";
     public static final String USE_MUTINY = "useMutiny";
+    public static final String USE_JSONB_ANNOTATIONS = "useJsonbAnnotations";
+    public static final String JACKSON = "jackson";
     public static final String OPEN_API_SPEC_FILE_LOCATION = "openApiSpecFileLocation";
 
     public static final String QUARKUS_LIBRARY = "quarkus";
@@ -55,6 +57,8 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     private boolean useSwaggerAnnotations = true;
     private boolean useMicroProfileOpenAPIAnnotations = false;
     private boolean useMutiny = false;
+    private boolean useJsonbAnnotations = false;
+    private boolean useJackson = true;
 
     @Setter
     protected boolean useGzipFeature = false;
@@ -126,6 +130,8 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         cliOptions.add(CliOption.newBoolean(RETURN_RESPONSE, "Whether generate API interface should return javax.ws.rs.core.Response instead of a deserialized entity. Only useful if interfaceOnly is true.").defaultValue(String.valueOf(returnResponse)));
         cliOptions.add(CliOption.newBoolean(USE_SWAGGER_ANNOTATIONS, "Whether to generate Swagger annotations.", useSwaggerAnnotations));
         cliOptions.add(CliOption.newBoolean(USE_MICROPROFILE_OPENAPI_ANNOTATIONS, "Whether to generate Microprofile OpenAPI annotations. Only valid when library is set to quarkus.", useMicroProfileOpenAPIAnnotations));
+        cliOptions.add(CliOption.newBoolean(USE_JSONB_ANNOTATIONS, "Whether to generate Jsonb annotations.", useJsonbAnnotations));
+        cliOptions.add(CliOption.newBoolean(JACKSON, "Whether to use Jackson.", useJackson));
         cliOptions.add(CliOption.newString(OPEN_API_SPEC_FILE_LOCATION, "Location where the file containing the spec will be generated in the output folder. No file generated when set to null or empty string."));
         cliOptions.add(CliOption.newBoolean(SUPPORT_ASYNC, "Wrap responses in CompletionStage type, allowing asynchronous computation (requires JAX-RS 2.1).", supportAsync));
         cliOptions.add(CliOption.newBoolean(USE_MUTINY, "Whether to use Smallrye Mutiny instead of CompletionStage for asynchronous computation. Only valid when library is set to quarkus.", useMutiny));
@@ -138,6 +144,9 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         convertPropertyToBooleanAndWriteBack(INTERFACE_ONLY, value -> interfaceOnly = value);
         convertPropertyToBooleanAndWriteBack(RETURN_RESPONSE, value -> returnResponse = value);
         convertPropertyToBooleanAndWriteBack(SUPPORT_ASYNC, this::setSupportAsync);
+        if (additionalProperties.containsKey(USE_JSONB_ANNOTATIONS)) {
+            useJsonbAnnotations = Boolean.valueOf(additionalProperties.get(USE_JSONB_ANNOTATIONS).toString());
+        }
         if (QUARKUS_LIBRARY.equals(library) || THORNTAIL_LIBRARY.equals(library) || HELIDON_LIBRARY.equals(library) || OPEN_LIBERTY_LIBRARY.equals(library) || KUMULUZEE_LIBRARY.equals(library)) {
             useSwaggerAnnotations = false;
         } else {
@@ -252,6 +261,10 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         if (!jackson) {
             codegenModel.imports.remove("JsonValue");
             codegenModel.imports.remove("JsonProperty");
+        }
+        if (!useJsonbAnnotations) {
+            codegenModel.imports.remove("JsonbProperty");
+            codegenModel.imports.remove("JsonbCreator");
         }
         return codegenModel;
     }
