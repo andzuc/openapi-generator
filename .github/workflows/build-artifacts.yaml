@@ -7,7 +7,6 @@ on:
         description: 'OpenAPI Generator version'
         required: true
         default: 7.11.0-SNAPSHOT
-  pull_request:
 
 env:
   IMAGENAME: openapi-generator
