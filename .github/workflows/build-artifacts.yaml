@@ -1,16 +1,13 @@
 name: build-artifacts
 
 on:
-  workflow_dispatch:
-    inputs:
-      version:
-        description: 'OpenAPI Generator version'
-        required: true
-        default: 7.11.0-SNAPSHOT
+  push:
+    branches:
+      - "jaxrs-spec-jsonb-dev"
 
 env:
   IMAGENAME: openapi-generator
-  VERSION: ${{ github.event.inputs.version || vars.VERSION }}
+  VERSION: 7.11.0-SNAPSHOT
 
 jobs:
   build-artifacts:

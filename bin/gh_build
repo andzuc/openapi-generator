@@ -1,9 +1,0 @@
-#!/bin/bash
-VERSION="$1"
-
-if [ -n "$VERSION" ]; then
-    gh workflow run build-artifacts \
-       -F version="${VERSION}"
-else
-    gh workflow run build-artifacts
-fi
