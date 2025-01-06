@@ -1,4 +1,4 @@
-name: 'Build&Deploy artifacts'
+name: build-artifacts
 
 on:
   workflow_dispatch:
@@ -13,7 +13,7 @@ env:
   VERSION: ${{ github.event.inputs.version || vars.VERSION }}
 
 jobs:
-  build-image:
+  build-artifacts:
     runs-on: ubuntu-latest
     steps:
       - name: Set up QEMU
